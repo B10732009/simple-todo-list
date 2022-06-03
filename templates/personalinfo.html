@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block body %}
+{% if loginUser %}
+<form method="post" action="/personalinfo">
+    <br>
+    <br>
+    <div style="text-align: center; color:#0072E3; font-size:50px;">
+        <table align=center style="padding:5px; ">
+            <tr>
+                <td>&nbsp*Email&nbsp</td>
+                <td><input type="text" id="email" name="email" required="required" readonly
+                        value="{{loginUser['email']}}" style="color:#ADADAD; font-size:40px;" /></td>
+            </tr>
+            <tr>
+                <td>&nbsp</td>
+            </tr>
+            <tr>
+                <td>&nbsp*Username&nbsp</td>
+                <td><input type="text" id="username" name="username" required="required"
+                        value="{{loginUser['username']}}" style="color:#0072E3; font-size:40px;" /></td>
+            </tr>
+            <tr>
+                <td>&nbsp</td>
+            </tr>
+            <tr>
+                <td>&nbsp*Password&nbsp</td>
+                <td><input type="text" id="password" name="password" required="required"
+                        value="{{loginUser['password']}}" style="color:#0072E3; font-size:40px;" /></td>
+            </tr>
+            <tr>
+                <td>&nbsp</td>
+            </tr>
+        </table>
+        <table align=center>
+            <tr>
+                <td><input type="submit" value="   save   "
+                        style="color:#0072E3; font-size:40px; padding:5px; border:3px #0072E3 solid;"></td>
+            </tr>
+        </table>
+    </div>
+</form>
+{% endif %}
+{% endblock %}

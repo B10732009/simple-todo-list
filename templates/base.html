@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TO-DO LIST</title>
+    <header>
+        <div style="background-color:#004B97;font-size:40px;padding:15px;">
+            <div style="float: right">
+                {% if loginUser %}
+                <a href="/logout"
+                    style="color:#FFFFFF;background-color:#0072E3;text-decoration:none;padding:5px;">Logout</a>
+                {% else %}
+                <a href="/login"
+                    style="color:#FFFFFF;background-color:#0072E3;text-decoration:none;padding:5px;">Login</a>
+                {% endif %}
+                <a href="/signup" style="color:#FFFFFF;background-color:#0072E3;text-decoration:none;padding:5px;">Sign
+                    Up</a>
+            </div>
+            <a href="/" style="color:#FFFFFF;background-color:#0072E3;text-decoration:none;padding:5px;">Home</a>
+            <a href="/personalinfo"
+                style="color:#FFFFFF;background-color:#0072E3;text-decoration:none;padding:5px;">Personal
+                Info</a>
+            <a href="/note" style="color:#FFFFFF;background-color:#0072E3;text-decoration:none;padding:5px;">Note</a>
+        </div>
+    </header>
+</head>
+
+<body style="background-color:#E0E0E0;">
+    <div style="float: right; color:#C6A300; font-size:30px;">
+        {% if loginUser %}
+        [{{loginUser['username']}}]
+        {% endif %}
+        &nbsp
+    </div>
+    {% block body %}{% endblock %}
+
+</body>
+
+</html>

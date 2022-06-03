@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block body %}
+<form method="post" action="/login">
+    <br>
+    <br>
+    <div style="text-align: center; color:#0072E3; font-size:50px;">
+        <table align=center style="padding:5px; ">
+            <tr>
+                <td>&nbsp*Email&nbsp</td>
+                <td><input type="text" id="email" name="email" required="required"
+                        style="color:#0072E3; font-size:40px;" /></td>
+            </tr>
+            <tr>
+                <td>&nbsp</td>
+            </tr>
+            <tr>
+                <td>&nbsp*Password&nbsp</td>
+                <td><input type="text" id="password" name="password" required="required"
+                        style="color:#0072E3; font-size:40px;" /></td>
+            </tr>
+            <tr>
+                <td>&nbsp</td>
+            </tr>
+        </table>
+        <table align=center>
+            <tr>
+                <td><input type="submit" value="   login   "
+                        style="color:#0072E3; font-size:40px; padding:5px; border:3px #0072E3 solid;"></td>
+            </tr>
+        </table>
+    </div>
+</form>
+{% endblock %}

@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block body %}
+<div style="text-align: center; color:#0072E3; font-size:60px;">
+    <br>
+    {% if loginUser %}
+    Hello, {{loginUser['username']}}
+    {% endif %}
+</div>
+{% endblock %}
