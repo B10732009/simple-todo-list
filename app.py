@@ -91,7 +91,6 @@ def login():
 
         # 讀取符合的帳號資料
         data = db.fetch()
-
         # 確認符合的帳號資料是否為空
         if data:
             # 將該帳號資料存入loginUser變數(字典模式)

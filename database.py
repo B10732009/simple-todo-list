@@ -1,4 +1,5 @@
 import sqlite3
+import os
 
 
 #Database物件, 使用sqlite
@@ -15,7 +16,9 @@ class Database:
 
     # 打開/創建資料庫連線
     def __openConnection(self):
-        self.connection = sqlite3.connect('{}.sqlite3'.format(self.dbName))
+        currentPath = os.path.dirname(os.path.abspath(__file__))
+        self.connection = sqlite3.connect(
+            '{}/{}.sqlite3'.format(currentPath, self.dbName))
         self.cursor = self.connection.cursor()
 
     # 關閉資料庫連線
