@@ -1,3 +1,4 @@
+<!--作為各個頁面的基底, 主要是上方的header-->
 <!DOCTYPE html>
 <html lang="zh-TW">
 
@@ -5,37 +6,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TO-DO LIST</title>
+    <!--header的各個連結-->
     <header>
         <div style="background-color:#004B97;font-size:40px;padding:15px;">
             <div style="float: right">
                 {% if loginUser %}
-                <a href="/logout"
-                    style="color:#FFFFFF;background-color:#0072E3;text-decoration:none;padding:5px;">Logout</a>
+                <a href="/logout" style="color:#FFFFFF;background-color:#0072E3;text-decoration:none;padding:5px;"><img
+                        src={{iconImage['logout']}} style="height:30px;">&nbspLogout</a>
                 {% else %}
-                <a href="/login"
-                    style="color:#FFFFFF;background-color:#0072E3;text-decoration:none;padding:5px;">Login</a>
+                <a href="/login" style="color:#FFFFFF;background-color:#0072E3;text-decoration:none;padding:5px;"><img
+                        src={{iconImage['login']}} style="height:30px;">&nbspLogin</a>
                 {% endif %}
-                <a href="/signup" style="color:#FFFFFF;background-color:#0072E3;text-decoration:none;padding:5px;">Sign
+                <a href="/signup" style="color:#FFFFFF;background-color:#0072E3;text-decoration:none;padding:5px;"><img
+                        src={{iconImage['signup']}} style="height:30px;">&nbspSign
                     Up</a>
             </div>
-            <a href="/" style="color:#FFFFFF;background-color:#0072E3;text-decoration:none;padding:5px;">Home</a>
+            <a href="/" style="color:#FFFFFF;background-color:#0072E3;text-decoration:none;padding:5px;"><img
+                    src={{iconImage['home']}} style="height:30px;">&nbspHome</a>
             <a href="/personalinfo"
-                style="color:#FFFFFF;background-color:#0072E3;text-decoration:none;padding:5px;">Personal
+                style="color:#FFFFFF;background-color:#0072E3;text-decoration:none;padding:5px;"><img
+                    src={{iconImage['personalinfo']}} style="height:30px;">&nbspPersonal
                 Info</a>
-            <a href="/note" style="color:#FFFFFF;background-color:#0072E3;text-decoration:none;padding:5px;">Note</a>
+            <a href="/note" style="color:#FFFFFF;background-color:#0072E3;text-decoration:none;padding:5px;"><img
+                    src={{iconImage['note']}} style="height:30px;">&nbspNote</a>
         </div>
     </header>
 </head>
 
+
 <body style="background-color:#E0E0E0;">
     <div style="float: right; color:#C6A300; font-size:30px;">
+        <!--如果是登入狀態的話, 印出當前帳號的username-->
         {% if loginUser %}
         [{{loginUser['username']}}]
         {% endif %}
         &nbsp
     </div>
+    <!--各頁面body的部分-->
     {% block body %}{% endblock %}
-
 </body>
 
 </html>

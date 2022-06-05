@@ -10,9 +10,6 @@ class Database:
 
         self.__openConnection()
         self.__closeConnection()
-        #self.connection = sqlite3.connect('{}.sqlite3'.format(dbName))
-        #self.cursor = self.connection.cursor()
-        # self.connection.close()
 
     # 打開/創建資料庫連線
     def __openConnection(self):

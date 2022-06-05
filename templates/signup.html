@@ -7,24 +7,21 @@
         <table align=center style="padding:5px; ">
             <tr>
                 <td>&nbsp*Email&nbsp</td>
-                <td><input type="text" id="email" name="email" required="required"
-                        style="color:#0072E3; font-size:40px;" /></td>
+                <td><input type="text" id="email" name="email" style="color:#0072E3; font-size:40px;" /></td>
             </tr>
             <tr>
                 <td>&nbsp</td>
             </tr>
             <tr>
                 <td>&nbsp*Username&nbsp</td>
-                <td><input type="text" id="username" name="username" required="required"
-                        style="color:#0072E3; font-size:40px;" /></td>
+                <td><input type="text" id="username" name="username" style="color:#0072E3; font-size:40px;" /></td>
             </tr>
             <tr>
                 <td>&nbsp</td>
             </tr>
             <tr>
                 <td>&nbsp*Password&nbsp</td>
-                <td><input type="text" id="password" name="password" required="required"
-                        style="color:#0072E3; font-size:40px;" /></td>
+                <td><input type="text" id="password" name="password" style="color:#0072E3; font-size:40px;" /></td>
             </tr>
             <tr>
                 <td>&nbsp</td>
@@ -36,6 +33,13 @@
                         style="color:#0072E3; font-size:40px; padding:5px; border:3px #0072E3 solid;"></td>
             </tr>
         </table>
+        {% if errorMsg %}
+        <table align=center>
+            <tr>
+                <td style="color:#EA0000; font-size:20px;"><br>{{errorMsg}}</td>
+            </tr>
+        </table>
+        {% endif %}
     </div>
 </form>
 {% endblock %}

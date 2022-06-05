@@ -1,14 +1,15 @@
 from flask import Flask
 from flask import render_template, request, url_for, redirect
 from datetime import datetime
-import database
+from database import Database
+from image import iconImage
 import uuid
 
 # 建立Flask物件
 app = Flask(__name__)
 
 # 建立Database物件
-db = database.Database('database')
+db = Database('database')
 
 # 在資料庫中建立USER資料表
 db.execute(
@@ -40,18 +41,22 @@ loginUser = {}
 # 首頁
 @app.route("/", methods=['GET', 'POST'])
 def home():
-    return render_template("home.html", loginUser=loginUser)
+    return render_template("home.html", loginUser=loginUser, iconImage=iconImage())
 
 
 # 註冊
 @app.route("/signup", methods=['GET', 'POST'])
 def signup():
+    # 初始化錯誤訊息
+    errorMsg = ''
+
     # 如果是由按下'sign up'按鈕來到這個route
     if request.method == 'POST':
         # 取得request中的資料
         form = dict(request.form)
 
         # 確認form中'email', 'username', 'password'3項資料都存在
+
         if form.get('email') and form.get('username') and form.get('password'):
             # 在USER資料表中新增此帳號
             db.execute(
@@ -68,43 +73,53 @@ def signup():
 
             # 註冊成功, 回到首頁
             return redirect(url_for('home'))
-
+        else:
+            errorMsg = '[ERROR] Please fill in all information!'
     # 顯示註冊頁面
-    return render_template("signup.html", loginUser=loginUser)
+    return render_template("signup.html", loginUser=loginUser,
+                           iconImage=iconImage(), errorMsg=errorMsg)
 
 
 # 登入
 @app.route("/login", methods=['GET', 'POST'])
 def login():
+    # 初始化錯誤訊息
+    errorMsg = ''
+
     # 如果是由按下'login'按鈕來到這個route
     if request.method == 'POST':
         # 取得request中的資料
         form = dict(request.form)
 
-        # 從USER資料表中尋找符合的帳號
-        db.execute(
-            '''
-                SELECT * FROM USER
-                WHERE EMAIL='{}' AND PASSWORD='{}'
-            '''.format(form['email'], form['password'])
-        )
+        if form.get('email') and form.get('password'):
+            # 從USER資料表中尋找符合的帳號
+            db.execute(
+                '''
+                    SELECT * FROM USER
+                    WHERE EMAIL='{}' AND PASSWORD='{}'
+                '''.format(form['email'], form['password'])
+            )
 
-        # 讀取符合的帳號資料
-        data = db.fetch()
-        # 確認符合的帳號資料是否為空
-        if data:
-            # 將該帳號資料存入loginUser變數(字典模式)
-            loginUser['email'], loginUser['username'], loginUser['password'] = data[0]
+            # 讀取符合的帳號資料
+            data = db.fetch()
+            # 確認符合的帳號資料是否為空
+            if data:
+                # 將該帳號資料存入loginUser變數(字典模式)
+                loginUser['email'], loginUser['username'], loginUser['password'] = data[0]
 
-            #登入成功, 回到首頁
-            return redirect(url_for('home'))
+                #登入成功, 回到首頁
+                return redirect(url_for('home'))
+            else:
+                errorMsg = '[ERROR] Cannot find this account!'
+        else:
+            errorMsg = '[ERROR] Please fill in all information!'
 
     # 顯示登入頁面
-    return render_template("login.html", loginUser=loginUser)
+    return render_template("login.html", loginUser=loginUser,
+                           iconImage=iconImage(), errorMsg=errorMsg)
+
 
 # 登出
-
-
 @app.route("/logout", methods=['GET', 'POST'])
 def logout():
     # 將loginUser變數資料清空
@@ -113,14 +128,12 @@ def logout():
     #登出成功, 回到首頁
     return redirect(url_for('home'))
 
+
 # 個人帳號資料
-
-
 @app.route("/personalinfo", methods=['GET', 'POST'])
 def personalinfo():
     # 確認是否已登入
     if not loginUser:
-
         #若否, 回到登入頁面
         return redirect(url_for('login'))
 
@@ -145,7 +158,7 @@ def personalinfo():
             loginUser['password'] = form['password']
 
     # 顯示個人帳號資料頁面
-    return render_template("personalinfo.html", loginUser=loginUser)
+    return render_template("personalinfo.html", loginUser=loginUser, iconImage=iconImage())
 
 
 # 筆記
@@ -171,6 +184,7 @@ def note():
                 '''.format(str(uuid.uuid4()), loginUser['email'],
                            form['content'], datetime.now().strftime("%Y/%m/%d %H:%M"), 0)
             )
+
         # 如果form中有'delete_uuid'項(按下delete按鈕)
         elif form.get('delete_uuid'):
             # 刪除筆記
@@ -180,6 +194,7 @@ def note():
                     WHERE UUID='{}';
                 '''.format(form['delete_uuid'])
             )
+
         # 如果form中有'done'項(按下status欄按鈕)
         elif form.get('done') and form.get('done_uuid'):
             # 更新DONE狀態
@@ -206,7 +221,8 @@ def note():
     data.sort(key=lambda d: str((int(d[4])+1) % 2)+str(d[3]), reverse=True)
 
     # 顯示筆記頁面
-    return render_template("note.html", loginUser=loginUser, notes=data)
+    return render_template("note.html", loginUser=loginUser,
+                           iconImage=iconImage(), notes=data)
 
 
 # 執行app物件
