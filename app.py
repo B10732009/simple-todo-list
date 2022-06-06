@@ -56,23 +56,24 @@ def signup():
         form = dict(request.form)
 
         # 確認form中'email', 'username', 'password'3項資料都存在
-
         if form.get('email') and form.get('username') and form.get('password'):
             # 在USER資料表中新增此帳號
-            db.execute(
+            if db.execute(
                 '''
                     INSERT INTO USER ('EMAIL', 'USERNAME', 'PASSWORD')
                     VALUES ('{}', '{}', '{}');
                 '''.format(form['email'], form['username'], form['password'])
-            )
+            ):
 
-            # 更新loginUser資料
-            loginUser['email'] = form['email']
-            loginUser['username'] = form['username']
-            loginUser['password'] = form['password']
+                # 更新loginUser資料
+                loginUser['email'] = form['email']
+                loginUser['username'] = form['username']
+                loginUser['password'] = form['password']
 
-            # 註冊成功, 回到首頁
-            return redirect(url_for('home'))
+                # 註冊成功, 回到首頁
+                return redirect(url_for('home'))
+            else:
+                errorMsg = '[ERROR] This email address has been used!'
         else:
             errorMsg = '[ERROR] Please fill in all information!'
     # 顯示註冊頁面
